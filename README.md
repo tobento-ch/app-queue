@@ -27,7 +27,7 @@ composer require tobento/app-queue
 
 ## Requirements
 
-- PHP 8.0 or greater
+- PHP 8.4 or greater
 
 # Documentation
 
@@ -52,7 +52,7 @@ use Tobento\Service\Queue\JobProcessorInterface;
 use Tobento\Service\Queue\FailedJobHandlerInterface;
 
 // Create the app
-$app = (new AppFactory())->createApp();
+$app = new AppFactory()->createApp();
 
 // Add directories:
 $app->dirs()
@@ -105,7 +105,7 @@ Check out the [Queue Service - Dispatching Jobs](https://github.com/tobento-ch/s
 To run queues you may run the [Queue Worker](https://github.com/tobento-ch/service-queue#worker) using the ```queue:work``` console command. 
 
 ```
-php app queue:work
+php ap queue:work
 ```
 
 Check out the [Queue Service - Work Command](https://github.com/tobento-ch/service-queue#work-command) section to learn more about the command.
@@ -119,7 +119,7 @@ Alternatively, you may run the ```queue:work``` command using the [App Schedule]
 ```
 use Tobento\Service\Schedule\Task\CommandTask;
 
-$task = (new CommandTask(
+$task = new CommandTask(
     command: 'queue:work',
     input: [
         // you may stop the queue to work when it is empty:
@@ -133,7 +133,7 @@ $task = (new CommandTask(
         // failed jobs might not be handled.
         '--timeout' => 60,
     ],
-))->cron('* * * * *');
+)->cron('* * * * *');
 ```
 
 ### Failed Jobs
