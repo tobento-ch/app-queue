@@ -93,7 +93,6 @@ class QueueTest extends TestCase
     {
         $app = $this->createApp();
         $app->boot(Queue::class);
-        $app->booting();
         
         $app->on(QueuesInterface::class, function (): QueuesInterface {
             return new class() implements QueuesInterface {
@@ -119,6 +118,8 @@ class QueueTest extends TestCase
             };
         });
         
+        $app->booting();
+        
         $this->assertInstanceof(NullQueue::class, $app->get(QueueInterface::class));
     }
     
@@ -126,7 +127,6 @@ class QueueTest extends TestCase
     {
         $app = $this->createApp();
         $app->boot(Queue::class);
-        $app->booting();
         
         $app->on(QueuesInterface::class, function (): QueuesInterface {
             return new class() implements QueuesInterface {
@@ -151,6 +151,8 @@ class QueueTest extends TestCase
                 }
             };
         });
+        
+        $app->booting();
         
         $this->assertInstanceof(SyncQueue::class, $app->get(QueueInterface::class));
     }
@@ -182,5 +184,19 @@ class QueueTest extends TestCase
         $this->assertSame(0, $executed->code());
         $this->assertStringContainsString('Worker default starting', $output);
         $this->assertStringContainsString('Worker default stopped', $output);
+    }
+    
+    public function testQueuesStoragesAreMigrated()
+    {
+        // This would throw \PDOException if not migrated!
+        
+        $app = $this->createApp();
+        $app->boot(Queue::class);
+        $app->booting();
+        $queues = $app->get(QueuesInterface::class);
+        
+        $job = $queues->get(name: 'database')->pop();
+        
+        $this->assertTrue(true);
     }
 }
