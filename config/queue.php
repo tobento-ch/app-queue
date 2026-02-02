@@ -21,22 +21,7 @@ use Psr\Container\ContainerInterface;
 use function Tobento\App\{directory};
 
 return [
-    
-    /*
-    |--------------------------------------------------------------------------
-    | Migrations
-    |--------------------------------------------------------------------------
-    |
-    | The migrations.
-    |
-    */
-    
-    'migrations' => [
-        // Creates database tables depending on its storage
-        // implemenation specified on the interfaces below.
-        \Tobento\App\Queue\Migration\StoragesMigration::class,
-    ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Queues
