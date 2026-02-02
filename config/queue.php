@@ -16,10 +16,26 @@ use Tobento\Service\Queue\Storage\QueueFactory as StorageQueueFactory;
 use Tobento\Service\Queue\SyncQueue;
 use Tobento\Service\Queue\NullQueue;
 use Tobento\Service\Storage\JsonFileStorage;
+use Tobento\Service\Storage\PdoSqliteStorage;
 use Psr\Container\ContainerInterface;
 use function Tobento\App\{directory};
 
 return [
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Migrations
+    |--------------------------------------------------------------------------
+    |
+    | The migrations.
+    |
+    */
+    
+    'migrations' => [
+        // Creates database tables depending on its storage
+        // implemenation specified on the interfaces below.
+        \Tobento\App\Queue\Migration\StoragesMigration::class,
+    ],
     
     /*
     |--------------------------------------------------------------------------
@@ -43,12 +59,29 @@ return [
             ],
         ],
         
+        'database' => [
+            // factory must implement QueueFactoryInterface
+            'factory' => StorageQueueFactory::class,
+            'config' => [
+                // specify the table storage:
+                'table' => 'queue_jobs',
+
+                // specify the storage:
+                'storage' => PdoSqliteStorage::class,
+                'database' => 'sqlite',
+
+                // you may specify a priority,
+                // higher queue jobs gets first processed.
+                'priority' => 100, // 100 is default
+            ],
+        ],
+        
         'file' => [
             // factory must implement QueueFactoryInterface
             'factory' => StorageQueueFactory::class,
             'config' => [
                 // specify the table storage:
-                'table' => 'jobs',
+                'table' => 'queue_jobs',
 
                 // specify the storage:
                 'storage' => JsonFileStorage::class,
