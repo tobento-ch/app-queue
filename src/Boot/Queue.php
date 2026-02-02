@@ -96,6 +96,9 @@ class Queue extends Boot
                 jobProcessor: $this->app->get(JobProcessorInterface::class),
             );
         });
+        
+        // Migrate storages after queues are configured:
+        $migration->install(\Tobento\App\Queue\Migration\StoragesMigration::class);
 
         // console commands:
         $this->app->on(ConsoleInterface::class, function(ConsoleInterface $console): void {
