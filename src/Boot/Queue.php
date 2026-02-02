@@ -18,6 +18,7 @@ use Tobento\App\Boot\Functions;
 use Tobento\App\Boot\Config;
 use Tobento\App\Migration\Boot\Migration;
 use Tobento\App\Console\Boot\Console;
+use Tobento\App\Database\Boot\Database;
 use Tobento\App\Logging\Boot\Logging;
 use Tobento\App\Queue\LogFailedJobHandler;
 use Tobento\Service\Queue\QueuesInterface;
@@ -47,6 +48,7 @@ class Queue extends Boot
         Migration::class,
         Logging::class,
         Console::class,
+        Database::class,
     ];
 
     /**
