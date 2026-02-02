@@ -75,6 +75,7 @@ class QueueTest extends TestCase
         $queues = $app->get(QueuesInterface::class);
         
         $this->assertInstanceof(SyncQueue::class, $queues->get(name: 'sync'));
+        $this->assertInstanceof(StorageQueue::class, $queues->get(name: 'database'));
         $this->assertInstanceof(StorageQueue::class, $queues->get(name: 'file'));
         $this->assertInstanceof(NullQueue::class, $queues->get(name: 'null'));
     }
