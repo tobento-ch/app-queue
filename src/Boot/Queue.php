@@ -102,6 +102,7 @@ class Queue extends Boot
 
         // console commands:
         $this->app->on(ConsoleInterface::class, function(ConsoleInterface $console): void {
+            $console->addCommand(\Tobento\Service\Queue\Console\ListenCommand::class);
             $console->addCommand(\Tobento\Service\Queue\Console\WorkCommand::class);
             $console->addCommand(\Tobento\Service\Queue\Console\ClearCommand::class);
         });
