@@ -10,10 +10,10 @@ Queue support for the app using the [Queue Service](https://github.com/tobento-c
     - [App](#app)
     - [Queue Boot](#queue-boot)
         - [Queue Config](#queue-config)
-        - [Creating Jobs](#creating-jobs)
-        - [Dispatching Jobs](#dispatching-jobs)
-        - [Running Queues](#running-queues)
-        - [Failed Jobs](#failed-jobs)
+    - [Creating Jobs](#creating-jobs)
+    - [Dispatching Jobs](#dispatching-jobs)
+    - [Running Queues](#running-queues)
+    - [Failed Jobs](#failed-jobs)
 - [Credits](#credits)
 ___
 
@@ -92,15 +92,15 @@ If you are not using the [App Skeleton](https://github.com/tobento-ch/app-skelet
 
 The configuration for the queue is located in the ```app/config/queue.php``` file at the default [**App Skeleton**](https://github.com/tobento-ch/app-skeleton) config location where you can specify the queues for your application.
 
-### Creating Jobs
+## Creating Jobs
 
 Check out the [Queue Service - Creating Jobs](https://github.com/tobento-ch/service-queue#creating-jobs) section to learn more about creating jobs.
 
-### Dispatching Jobs
+## Dispatching Jobs
 
 Check out the [Queue Service - Dispatching Jobs](https://github.com/tobento-ch/service-queue#dispatching-jobs) section to learn more about creating jobs.
 
-### Running Queues
+## Running Queues
 
 To run queues you may run the [Queue Worker](https://github.com/tobento-ch/service-queue#worker) using the ```queue:work``` console command. 
 
@@ -136,7 +136,24 @@ $task = new CommandTask(
 )->cron('* * * * *');
 ```
 
-### Failed Jobs
+**Local Development**
+
+For local development, you may use the ```queue:listen``` console command instead. It wraps ```queue:work```, automatically restarting the worker process after each job (or when the queue empties), so code changes are picked up without manually restarting the worker.
+
+```
+php ap queue:listen
+```
+
+> **Note:**
+> ```queue:listen``` is intended for local development only. It runs as a
+> long-lived process and spawns real subprocesses, both of which are
+> commonly restricted or unavailable on shared hosting. For production,
+> use Supervisor with ```queue:work```, or the cron-based
+> ```queue:work --stop-when-empty``` approach shown above.
+
+Check out the [Queue Service - Listen Command](https://github.com/tobento-ch/service-queue#listen-command) section to learn more about the command.
+
+## Failed Jobs
 
 By default, failed jobs will be handled by the implemented ```\Tobento\App\Queue\LogFailedJobHandler::class```. Any failed job will be repushed to the queue until it reaches the maximum retries. Once it has reached the maximum retries the job will not be queued anymore and will be sent into the app log.
 
