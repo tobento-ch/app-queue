@@ -165,6 +165,7 @@ class QueueTest extends TestCase
         
         $console = $app->get(ConsoleInterface::class);
         $this->assertTrue($console->hasCommand('queue:work'));
+        $this->assertTrue($console->hasCommand('queue:listen'));
         $this->assertTrue($console->hasCommand('queue:clear'));
     }
     
